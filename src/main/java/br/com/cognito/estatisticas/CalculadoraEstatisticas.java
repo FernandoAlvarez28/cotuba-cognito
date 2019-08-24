@@ -3,8 +3,11 @@ package br.com.cognito.estatisticas;
 import cotuba.domain.Capitulo;
 import cotuba.domain.Ebook;
 import cotuba.plugin.PosGeracaoEbook;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+
+import java.text.Normalizer;
 
 public class CalculadoraEstatisticas implements PosGeracaoEbook {
 
@@ -15,12 +18,14 @@ public class CalculadoraEstatisticas implements PosGeracaoEbook {
 
 			final Document document = Jsoup.parse(html);
 
-			final String textoDoCapitulo = document.body().text();
+			String textoDoCapitulo = document.body().text();
+			textoDoCapitulo = textoDoCapitulo.replaceAll("\\p{Punct}", StringUtils.EMPTY);
+			textoDoCapitulo = Normalizer.normalize(textoDoCapitulo, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", StringUtils.EMPTY);
 
 			final String[] palavras = textoDoCapitulo.split("\\s+");
 
 			for (String palavra : palavras) {
-				System.out.println(palavra);
+				System.out.println(palavra.toUpperCase());
 			}
 		}
 	}
