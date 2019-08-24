@@ -8,11 +8,15 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.text.Normalizer;
+import java.util.Map;
 
 public class CalculadoraEstatisticas implements PosGeracaoEbook {
 
 	@Override
 	public void executarAposGeracao(Ebook ebook) {
+
+		ContadorDePalavras contadorDePalavras = new ContadorDePalavras();
+
 		for (Capitulo capitulo : ebook.getCapitulos()) {
 			final String html = capitulo.getConteudoHtml();
 
@@ -25,8 +29,12 @@ public class CalculadoraEstatisticas implements PosGeracaoEbook {
 			final String[] palavras = textoDoCapitulo.split("\\s+");
 
 			for (String palavra : palavras) {
-				System.out.println(palavra.toUpperCase());
+				contadorDePalavras.adicionarPalavra(palavra);
 			}
+		}
+
+		for (Map.Entry<String, Integer> entry : contadorDePalavras.entrySet()) {
+			System.out.println(StringUtils.join(entry.getKey(), ": ", entry.getValue()));
 		}
 	}
 
