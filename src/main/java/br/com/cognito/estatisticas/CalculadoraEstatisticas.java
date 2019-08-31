@@ -2,7 +2,7 @@ package br.com.cognito.estatisticas;
 
 import cotuba.domain.Capitulo;
 import cotuba.domain.Ebook;
-import cotuba.plugin.PosGeracaoEbook;
+import cotuba.plugin.posgeracao.PosGeracaoEbook;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
