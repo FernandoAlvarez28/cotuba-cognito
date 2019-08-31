@@ -1,15 +1,35 @@
 package br.com.cognito.estatisticas;
 
+import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 
-public class ContadorDePalavras {
+public class ContadorDePalavras implements Iterable<ContadorDePalavras.Contagem> {
 
 	private final Map<String, Integer> contagemDePalavras;
 
 	public ContadorDePalavras() {
 		this.contagemDePalavras = new TreeMap<>();
+	}
+
+	public static final class Contagem {
+
+		private final String palavra;
+		private final int quantidade;
+
+		private Contagem(String palavra, int quantidade) {
+			this.palavra = palavra;
+			this.quantidade = quantidade;
+		}
+
+		public String getPalavra() {
+			return palavra;
+		}
+
+		public int getQuantidade() {
+			return quantidade;
+		}
+
 	}
 
 	public void adicionarPalavra(String palavra) {
@@ -26,8 +46,24 @@ public class ContadorDePalavras {
 		return contagemDePalavras.getOrDefault(palavra, 0);
 	}
 
-	public Set<Map.Entry<String, Integer>> entrySet() {
-		return contagemDePalavras.entrySet();
+	@Override
+	public Iterator<Contagem> iterator() {
+		final Iterator<Map.Entry<String, Integer>> iterator = this.contagemDePalavras.entrySet().iterator();
+
+		return new Iterator<Contagem>() {
+
+			@Override
+			public boolean hasNext() {
+				return iterator.hasNext();
+			}
+
+			@Override
+			public Contagem next() {
+				final Map.Entry<String, Integer> entry = iterator.next();
+				return new Contagem(entry.getKey(), entry.getValue());
+			}
+
+		};
 	}
 
 }

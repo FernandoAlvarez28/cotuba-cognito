@@ -8,7 +8,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.text.Normalizer;
-import java.util.Map;
 
 public class CalculadoraEstatisticas implements PosGeracaoEbook {
 
@@ -33,8 +32,8 @@ public class CalculadoraEstatisticas implements PosGeracaoEbook {
 			}
 		}
 
-		for (Map.Entry<String, Integer> entry : contadorDePalavras.entrySet()) {
-			System.out.println(StringUtils.join(entry.getKey(), ": ", entry.getValue()));
+		for (ContadorDePalavras.Contagem contagem : contadorDePalavras) {
+			System.out.println(StringUtils.join(contagem.getPalavra(), ": ", contagem.getQuantidade()));
 		}
 	}
 
